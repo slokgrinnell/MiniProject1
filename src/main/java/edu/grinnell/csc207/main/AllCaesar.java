@@ -30,17 +30,20 @@ public class AllCaesar {
       return;
     } //if(option) Encode or Decode
 
-    if (!text.matches("[a-z]+")) {
-      System.err.println("Error: String contains characters other than lowercase letters.");
-      return;
-    } //if(text) Contain lowercase matches
-
     // Caesar Cipher output for all shifts
     for (char key = 'a'; key <= 'z'; key++) {
-      String result = option.equals("encode")
-          ? CipherUtils.caesarEncrypt(text, key)
-          : CipherUtils.caesarDecrypt(text, key);
-      System.err.println("n = " + key + ": " + result);  // Use System.err instead of System.out
+      String result;
+      if (text.isEmpty()) {
+        result = "";
+      } else if (!text.matches("[a-z]+")) {
+        System.err.println("Error: String contains characters other than lowercase letters.");
+        return;
+      } else {
+        result = option.equals("encode")
+                ? CipherUtils.caesarEncrypt(text, key)
+                : CipherUtils.caesarDecrypt(text, key);
+      } // if else loop end
+      System.out.println("n = " + key + ": " + result);
     } //for(key) Key to choose Encrypt or Decrypt
   } // End main(String[])
 } // End AllCaesar

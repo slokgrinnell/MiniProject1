@@ -24,12 +24,15 @@ public class CipherUtils {
   public static String caesarEncrypt(String str, char letter) {
     int keyVal = letter2int(letter);
     StringBuilder result = new StringBuilder();
-
-    for (int i = 0; i < str.length(); i++) {
-      int strChar = letter2int(str.charAt(i));
-      int encryptedChar = (strChar + keyVal) % NUM_LETTERS;
-      result.append(int2letter(encryptedChar));
-    } // End for loop
+    if (str.isEmpty()) {
+      result.append("");
+    } else {
+      for (int i = 0; i < str.length(); i++) {
+        int strChar = letter2int(str.charAt(i));
+        int encryptedChar = (strChar + keyVal) % NUM_LETTERS;
+        result.append(int2letter(encryptedChar));
+      } // End for loop
+    } // End else loop
     return result.toString();
   } // End caesarEncrypt(String, char)
 

@@ -66,6 +66,6 @@ public class Cipher {
           : CipherUtils.vigenereDecrypt(text, key);
     } //if(cipherType)
 
-    System.err.println(result);
+    System.out.println(result);
   } // End main(String[])
 } // End Cipher
