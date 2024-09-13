@@ -49,48 +49,48 @@ public class Cipher {
         text = arg;  // First element that is not -caeser or -encode / -decode
       } else {
         key = arg;  // Second element argument is the key
-      }
+      } //end if and else statement
     } //for
 
     // Validate cipher type
-    if (cipherType.isEmpty() || (!cipherType.equals("-caesar") && !cipherType.equals("-vigenere"))) {
+    if (cipherType.isEmpty() || (!cipherType.equals("-caesar")
+        && !cipherType.equals("-vigenere"))) {
       System.err.println("Error: Invalid cipher type.");
       return;
-    }
+    } // end if (cipherType)
 
     // Validate operation type
     if (option.isEmpty() || (!option.equals("-encode") && !option.equals("-decode"))) {
       System.err.println("Error: Invalid option: \"" + option + "\"."
                          + "Valid options are \"encode\" or \"decode\".");
       return;
-    }
+    } // end if (option)
 
     // Validate the input text
     if (!text.matches("[a-z]+")) {
       System.err.println("Error: String contains characters other than lowercase letters.");
       return;
-    }
+    } // end if (text)
 
     // Validate Caesar cipher key: it must be a single lowercase letter
     if (cipherType.equals("-caesar")) {
       if (key.length() != 1 || !key.matches("[a-z]")) {
         System.err.println("Error: Caesar cipher key must be a single lowercase letter.");
         return;
-      }
-    }
+      } // end if (key)
+    } // end final if validation
 
     // Validate Vigenère cipher key: it must only contain lowercase letters
     if (cipherType.equals("-vigenere")) {
       if (!key.matches("[a-z]+")) {
         System.err.println("Error: Vigenère cipher key must contain only lowercase letters.");
         return;
-      }
-    }
+      } // end if (key)
+    } // end if viginere
 
     // Perform encryption/decryption based on the cipher type
     String result = "";
     PrintWriter output = new PrintWriter(System.out, true);
-    
     if (cipherType.equals("-caesar")) {
       char keyLetter = key.charAt(0);
       result = option.equals("-encode")
@@ -100,8 +100,7 @@ public class Cipher {
       result = option.equals("-encode")
           ? CipherUtils.vigenereEncrypt(text, key)
           : CipherUtils.vigenereDecrypt(text, key);
-    }
-
+    } // end if (cipherType)
     output.println(result);
   } // End main(String[])
 } // End Cipher
