@@ -12,13 +12,14 @@ import edu.grinnell.csc207.util.CipherUtils;
 public class Cipher {
 
   // In Cipher.java
-/**
- * Expected number of command-line arguments.
- */
+  /**
+   * Expected number of command-line arguments.
+   */
   private static final int EXPECTED_ARGS = 4;
-/**
- * Expected number of third arguments.
- */
+
+  /**
+   * Expected number of third arguments.
+   */
   private static final int THIRD_ARGUMENT = 3;
 
   /**
@@ -33,41 +34,73 @@ public class Cipher {
       return;
     } //if (args)
 
-    String cipherType = args[0];
-    String option = args[1];
-    String text = args[2];
-    String key = args[THIRD_ARGUMENT];
+    // Determine cipher type and operation, regardless of order
+    String cipherType = "";
+    String option = "";
+    String text = "";
+    String key = "";
 
-    // Further validation for cipher types and options
-    if (!cipherType.equals("caesar") && !cipherType.equals("vigenere")) {
+    for (String arg : args) {
+      if (arg.equals("-caesar") || arg.equals("-vigenere")) {
+        cipherType = arg;
+      } else if (arg.equals("-encode") || arg.equals("-decode")) {
+        option = arg;
+      } else if (text.isEmpty()) {
+        text = arg;  // First element that is not -caeser or -encode / -decode
+      } else {
+        key = arg;  // Second element argument is the key
+      }
+    } //for
+
+    // Validate cipher type
+    if (cipherType.isEmpty() || (!cipherType.equals("-caesar") && !cipherType.equals("-vigenere"))) {
       System.err.println("Error: Invalid cipher type.");
       return;
-    } //if(cipherType)
+    }
 
-    if (!option.equals("encode") && !option.equals("decode")) {
+    // Validate operation type
+    if (option.isEmpty() || (!option.equals("-encode") && !option.equals("-decode"))) {
       System.err.println("Error: Invalid option: \"" + option + "\"."
-                        + "Valid options are \"encode\" or \"decode\".");
+                         + "Valid options are \"encode\" or \"decode\".");
       return;
-    } //if(option)
+    }
 
+    // Validate the input text
     if (!text.matches("[a-z]+")) {
       System.err.println("Error: String contains characters other than lowercase letters.");
       return;
-    } //if(text)
+    }
+
+    // Validate Caesar cipher key: it must be a single lowercase letter
+    if (cipherType.equals("-caesar")) {
+      if (key.length() != 1 || !key.matches("[a-z]")) {
+        System.err.println("Error: Caesar cipher key must be a single lowercase letter.");
+        return;
+      }
+    }
+
+    // Validate Vigenère cipher key: it must only contain lowercase letters
+    if (cipherType.equals("-vigenere")) {
+      if (!key.matches("[a-z]+")) {
+        System.err.println("Error: Vigenère cipher key must contain only lowercase letters.");
+        return;
+      }
+    }
 
     // Perform encryption/decryption based on the cipher type
     String result = "";
     PrintWriter output = new PrintWriter(System.out, true);
-    if (cipherType.equals("caesar")) {
+    
+    if (cipherType.equals("-caesar")) {
       char keyLetter = key.charAt(0);
-      result = option.equals("encode")
+      result = option.equals("-encode")
           ? CipherUtils.caesarEncrypt(text, keyLetter)
           : CipherUtils.caesarDecrypt(text, keyLetter);
-    } else if (cipherType.equals("vigenere")) {
-      result = option.equals("encode")
+    } else if (cipherType.equals("-vigenere")) {
+      result = option.equals("-encode")
           ? CipherUtils.vigenereEncrypt(text, key)
           : CipherUtils.vigenereDecrypt(text, key);
-    } //if(cipherType)
+    }
 
     output.println(result);
   } // End main(String[])
