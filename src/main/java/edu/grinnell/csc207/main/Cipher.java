@@ -1,5 +1,7 @@
 package edu.grinnell.csc207.main;
 
+import java.io.PrintWriter;
+
 import edu.grinnell.csc207.util.CipherUtils;
 
 /**
@@ -55,6 +57,7 @@ public class Cipher {
 
     // Perform encryption/decryption based on the cipher type
     String result = "";
+    PrintWriter output = new PrintWriter(System.out, true);
     if (cipherType.equals("caesar")) {
       char keyLetter = key.charAt(0);
       result = option.equals("encode")
@@ -66,6 +69,6 @@ public class Cipher {
           : CipherUtils.vigenereDecrypt(text, key);
     } //if(cipherType)
 
-    System.out.println(result);
+    output.println(result);
   } // End main(String[])
 } // End Cipher

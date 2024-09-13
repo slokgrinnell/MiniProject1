@@ -1,5 +1,7 @@
 package edu.grinnell.csc207.main;
 
+import java.io.PrintWriter;
+
 import edu.grinnell.csc207.util.CipherUtils;
 
 /**
@@ -32,6 +34,7 @@ public class AllCaesar {
 
     // Caesar Cipher output for all shifts
     for (char key = 'a'; key <= 'z'; key++) {
+      PrintWriter output = new PrintWriter(System.out, true);
       String result;
       if (text.isEmpty()) {
         result = "";
@@ -43,7 +46,7 @@ public class AllCaesar {
                 ? CipherUtils.caesarEncrypt(text, key)
                 : CipherUtils.caesarDecrypt(text, key);
       } // if else loop end
-      System.out.println("n = " + key + ": " + result);
+      output.println("n = " + key + ": " + result);
     } //for(key) Key to choose Encrypt or Decrypt
   } // End main(String[])
 } // End AllCaesar
